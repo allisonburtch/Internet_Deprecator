@@ -10,9 +10,11 @@ function emitTimeOpen(){
 // worker.port.emit(timeOpen);
 };
 
-setInterval(emitTimeOpen, 6000);
+setInterval(emitTimeOpen, 12000);
 
 
+var timeMessage = timeOpen();
+self.port.emit("timeMessage", timeMessage);
 
 
 var images = $("img");
