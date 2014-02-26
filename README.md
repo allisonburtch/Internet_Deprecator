@@ -5,4 +5,3 @@ I will do this by:
 - substituting images
 - switching words
 - markov chaining selective text
-- 
