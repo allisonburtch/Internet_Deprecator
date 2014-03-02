@@ -1,26 +1,26 @@
 
 
-function timeOpen (){
-	return ((Date.now() - window.performance.timing.loadEventStart) / 1000 / 60);
-};
+self.port.on("getTimeMessage", function(timeMessage) {
+  var images = $("img");
+	console.log("number of images " + images.length);
+  for (var i = 0; i < images.length; i++) {
+	images.hide(i*Math.random);
+  }
+});
 
-function emitTimeOpen(){
-	// port.on.....(timeOpen);
-	console.log("time open: " + timeOpen());
-// worker.port.emit(timeOpen);
-};
+self.port.emit("gotTimeMessage", function(timeMessage){
+	function timeOpen (){
+		return ((Date.now() - window.performance.timing.loadEventStart) / 1000 / 60);
+	};
+	function emitTimeOpen(){
+		// port.on.....(timeOpen);
+		console.log("time open: " + timeOpen());
+	// worker.port.emit(timeOpen);
+	};
+	setInterval(emitTimeOpen, 12000);
+	var timeMessage = timeOpen();
+});
 
-setInterval(emitTimeOpen, 12000);
-
-
-var timeMessage = timeOpen();
-self.port.emit("timeMessage", timeMessage);
-
-
-var images = $("img");
-images.hide();
-
-console.log("number of images " + images.length);
 
 // if timing > 0 {
 
