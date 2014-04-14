@@ -17,37 +17,46 @@
 
 function timeOpen(){
 	return Math.floor((Date.now() - window.performance.timing.loadEventStart) / 1000 / 60);
-	function emitTimeOpen(){
-		console.log("time open: " + timeOpen());
-		}
-	var timing = setInterval(emitTimeOpen, 12000);
-	self.port.emit("currentTime", timing);
-	};
-
-
-function setImageTime(){
-	if (timing >= 0) {
-		  var images = $("img:not(.altered)");
-		  console.log("number of images " + images.length);
-		  for (var i = 0; i < images.length; i++) {
-		  	$(images.get(Math.floor(images.length * Math.random()))).addClass('altered').hide();
-		  }
-
-		  var links = $('a').length;
-		  for (var i = 0; i < links; i++) {
-		  	links.css('text-decoration', 'none').css('cursor', 'default').css('color', $('p').css('color')).bind('click', false);
-
-		  }
-		}
-	else {
-		console.log("doing nothing");
-	}
 };
 
-// setInterval(setImageTime, 30000);
-timeOpen();
+console.log("time open = " + timeOpen());
+// console.log("currentTimeinWindow is " + currentTimeinWindow);
+
+function emitTimeOpen(){
+	var currentTimeinWindow = timeOpen();
+	self.port.emit("timeOpen", currentTimeinWindow);
+		console.log("window time open is " + currentTimeinWindow)
+	self.port.on("timesUp", function(timesUp){
+			console.log("I got this back ")
+		})
+	};
+
+setInterval(emitTimeOpen, 2000);
 
 
+// function setImageTime(){
+// 	if (timing >= 0) {
+// 		  var images = $("img:not(.altered)");
+// 		  console.log("number of images " + images.length);
+// 		  for (var i = 0; i < images.length; i++) {
+// 		  	$(images.get(Math.floor(images.length * Math.random()))).addClass('altered').hide();
+// 		  }
+
+// 		  var links = $('a').length;
+// 		  for (var i = 0; i < links; i++) {
+// 		  	links.css('text-decoration', 'none').css('cursor', 'default').css('color', $('p').css('color')).bind('click', false);
+
+// 		  }
+// 		}
+// 	else {
+// 		console.log("doing nothing");
+// 	}
+// };
+
+
+
+
+// self.port.on("emitTiming", timing);
 
 // 	function timeOpen (){
 // 		return ((Date.now() - window.performance.timing.loadEventStart) / 1000 / 60);
@@ -118,26 +127,5 @@ timeOpen();
 // images.hide(i*Math.random);
 //   }
 // });
-
-
-// self.port.on("getTimeMessage", function(imageHide){
-	
-// 	var timeOpen = myTime;
-// 	self.port.emit("gotTimeMessage", function(timeOpen){
-// 		function timeOpen(){
-			
-// 		};
-// 		function emitTimeOpen(){
-			
-// 			console.log("this is the time" + timeOpen());
-// 			worker.port.emit(timeOpen);
-// 		};
-
-		
-// 		var timeMessage = timeOpen();
-// 	});
-
-// });
-
 
 
