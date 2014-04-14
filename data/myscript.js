@@ -15,20 +15,24 @@
 // The port.emit() function sends a message from the "main.js", 
 // or another add-on module, to a content script, or vice versa.
 
+//returns number of minutes the window has been open
 function timeOpen(){
 	return Math.floor((Date.now() - window.performance.timing.loadEventStart) / 1000 / 60);
 };
 
-console.log("time open = " + timeOpen());
-// console.log("currentTimeinWindow is " + currentTimeinWindow);
-
 function emitTimeOpen(){
 	var currentTimeinWindow = timeOpen();
 	self.port.emit("timeOpen", currentTimeinWindow);
-		console.log("window time open is " + currentTimeinWindow)
-	self.port.on("timesUp", function(timesUp){
-			console.log("I got this back ")
-		})
+		console.log("window time open is " + currentTimeinWindow);
+	
+	self.port.on("fiveMins", function(timesUp){
+		console.log("got the minute");
+		var links = $('a');
+		console.log("number of links" + links.length);
+		for (var i = 0; i < (links.length / 10); ++i) {
+		  	links.css('text-decoration', 'none').css('cursor', 'default').css('color', $('p').css('color')).bind('click', false);
+		  };
+		});
 	};
 
 setInterval(emitTimeOpen, 2000);
@@ -42,11 +46,7 @@ setInterval(emitTimeOpen, 2000);
 // 		  	$(images.get(Math.floor(images.length * Math.random()))).addClass('altered').hide();
 // 		  }
 
-// 		  var links = $('a').length;
-// 		  for (var i = 0; i < links; i++) {
-// 		  	links.css('text-decoration', 'none').css('cursor', 'default').css('color', $('p').css('color')).bind('click', false);
-
-// 		  }
+		 
 // 		}
 // 	else {
 // 		console.log("doing nothing");
@@ -55,6 +55,8 @@ setInterval(emitTimeOpen, 2000);
 
 
 
+
+//how long before these things should happen? 15 minutes?
 
 // self.port.on("emitTiming", timing);
 
